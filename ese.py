@@ -9,7 +9,7 @@ def read_file_and_search(word_to_search, file_name):
             found_words = []
             word_printed = False  # To ensure the message is printed only once
 
-            for line_number, line in enumerate(file, start=1):  # Hent linjenummer
+            for line_number, line in enumerate(file, start=1):  # get line number
                 words = line.split()
                 if word_to_search in words:  # checks if the word is in the line
                     found_words.append(word_to_search)
@@ -29,11 +29,11 @@ def read_file_and_search(word_to_search, file_name):
                     print(f"|Line {line_number}: {highlighted_line.strip()}")
             return found_words
 
-    except FileNotFoundError:
+    except FileNotFoundError: # error message in case the file is not found 
         print(f"|The file '{file_name}' was not found.")
         return []
 
-# Velg fil
+# chose files
 print("¤----------------------------¤")
 print("|Choose a file to search in: |")
 print("|1. file1.txt                |")
@@ -44,7 +44,7 @@ print("¤----------------------------¤")
 
 file_choice = input("|Choose 1, 2, 3 or 4 for their respected files: ")
 
-# Map valg til filnavn
+# assigning numbers to the text files
 file_mapping = {
     "1": "file1.txt",
     "2": "file2.txt",
@@ -53,15 +53,18 @@ file_mapping = {
 }
 
 file_name = file_mapping.get(file_choice)
+# error message if you write the wrong file name/number
 if not file_name:
     print("Invallid choise. Please start the program anew.")
 else:
-    # Velg søkeord
-    search_word = input(f"|You choose the file '{file_name}'. Write the word you want to search for: ")
+    # choose search word
+    search_word = input(f"|You chose the file '{file_name}'. Write the word you want to search for: ")
     found = read_file_and_search(search_word, file_name)
 
+    # error message if the word is not found in the chosen file
     if not found:
         print(f"|The word '{search_word}' was not found in the file '{file_name}'.")
+    #how many of the word there are in the file
     else:
         print(f"|Found {len(found)} cases of '{search_word}' in the file '{file_name}'.")
         print("¤----------------------------")
