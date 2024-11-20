@@ -11,14 +11,14 @@ def read_file_and_search(word_to_search, file_name):
 
             for line_number, line in enumerate(file, start=1):  # Hent linjenummer
                 words = line.split()
-                if word_to_search in words:  # Sjekk om ordet er i linjen
+                if word_to_search in words:  # checks if the word is in the line
                     found_words.append(word_to_search)
                     if not word_printed:
                         print("¤----------------------------")
                         print(f"|The word '{word_to_search}' is in the text")
-                        word_printed = True
+                        word_printed = True #allows the next message to be printed multipul times
 
-                    # Marker ordet i grønt og resten av linjen i oransje (gul er nærmeste ANSI-farge)
+                    # markes the word in green and the rest of the line in yellow
                     highlighted_line = ""
                     for word in words:
                         if word == word_to_search:
