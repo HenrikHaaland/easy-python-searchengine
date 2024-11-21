@@ -12,12 +12,14 @@ def read_file_and_search(word_to_search, file_name, mode):
                 if word_to_search in words:  # Check if the word is in the line
                     found_words.append(word_to_search)
 
-                    if mode == "1":  # Mode 1: Just print the word found message
-                        print("¤----------------------------")
-                        print(f"|The word '{word_to_search}' is in the text")
-                        print("¤----------------------------")
-                        break  # Only print this once and exit
-                    elif mode == "2":  # Mode 2: Print each line containing the word
+                if mode == "1":  # Mode 1: Just print the word found message
+                    print("¤----------------------------")
+                    print(f"|The word '{word_to_search}' is in the text")
+                    print("¤----------------------------")
+
+                    return found_words  # Stop after this message
+                elif mode == "2":  # Mode 2: Print each line containing the word
+                    if word_to_search in words:  # Only print relevant lines
                         highlighted_line = ""
                         for word in words:
                             if word == word_to_search:
@@ -25,8 +27,16 @@ def read_file_and_search(word_to_search, file_name, mode):
                             else:
                                 highlighted_line += f"{Fore.RED}{word}{Style.RESET_ALL} "
                         print(f"|Line {line_number}: {highlighted_line.strip()}")
-                    elif mode == "3":  # Mode 3: Print the total count of the word
-                        continue  # Collect occurrences for counting
+                elif mode == "3":  # Mode 3: Print the total count of the word
+                    continue  # Collect occurrences for counting
+                elif mode == "4":  # Mode 4: Print the whole file with coloring
+                    highlighted_line = ""
+                    for word in words:
+                        if word == word_to_search:
+                            highlighted_line += f"{Fore.GREEN}{word}{Style.RESET_ALL} "
+                        else:
+                            highlighted_line += f"{Fore.RED}{word}{Style.RESET_ALL} "
+                    print(f"|Line {line_number}: {highlighted_line.strip()}")
 
             if mode == "3":  # After collecting occurrences, print the count
                 print(f"|Found {len(found_words)} cases of '{word_to_search}' in the file '{file_name}'.")
@@ -45,7 +55,7 @@ print("|3. file3.txt                |")
 print("|4. file4.txt                |")
 print("¤----------------------------¤")
 
-file_choice = input("|Choose 1, 2, 3 or 4 for their respected files: ")
+file_choice = input("|Choose 1, 2, 3 or 4 for their respective files: ")
 
 # Assigning numbers to the text files
 file_mapping = {
@@ -66,16 +76,19 @@ else:
     print("|1. check word presence      |")
     print("|2. print whole lines        |")
     print("|3. print word count         |")
+    print("|4. Print whole text file    |")
     print("¤----------------------------¤")
-    mode = input("|Choose 1, 2, or 3: ")
+    mode = input("|Choose 1, 2, 3, or 4: ")
 
-    if mode not in ["1", "2", "3"]:
+    if mode not in ["1", "2", "3", "4"]:
         print("Invalid mode. Please start the program anew.")
     else:
         # Choose search word
-        print("¤----------------------------¤")
         search_word = input(f"|You chose the file '{file_name}'. Write the word you want to search for: ")
+        print("¤----------------------------¤")
         found = read_file_and_search(search_word, file_name, mode)
 
-        if mode != "3" and not found:  # Mode 1 and 2 only need this error message
+        if mode not in ["1", "4"] and not found:  # Mode 1 and 4 don't require this error message
             print(f"|The word '{search_word}' was not found in the file '{file_name}'.")
+            print("¤----------------------------")
+
